@@ -36,8 +36,8 @@ tags = st_tags_sidebar(
 if "Aplicada 2009" in tags:
     
 
-    st.subheader("Progreso de los alumnos en tiempo y forma por Semestre")
-    st.subheader("Diagrama de Sankey por Semestre")
+    st.subheader("Progreso de los alumnos de Física Aplicada en tiempo y forma por Semestre (2009-2015)")
+    st.subheader("Diagrama de Sankey por Semestre (2009-2015)")
     
     
     def create_dynamic_sankey(opacity=0.8):
@@ -483,8 +483,8 @@ if "Física 2009" in tags:
     
     
         
-    st.subheader("Progreso de los alumnos en tiempo y forma por Semestre")
-    st.subheader("Diagrama de Sankey por Semestre")
+    st.subheader("Progreso de los alumnos de Física en tiempo y forma por Semestre (2009-2015)")
+    st.subheader("Diagrama de Sankey por Semestre (2009-2015)")
     
     
     def create_dynamic_sankey(opacity=0.8):
@@ -955,17 +955,14 @@ if "Física 2009" in tags:
             
 if "Física 2016" in tags:
     
-    # Diagrama de Sankey modificado para generaciones 2016-2020
-    st.subheader("Progreso de los alumnos en tiempo y forma por Semestre")
-    st.subheader("Diagrama de Sankey por Semestre")
+    st.subheader("Progreso de los alumnos de Física en tiempo y forma por Semestre (2016-2020)")
+    st.subheader("Diagrama de Sankey por Semestre (2016-2020)")
     
-    # Definición de la función para crear el diagrama de Sankey
     def create_dynamic_sankey(opacity=0.8):
         # Definir nodos manualmente en el orden deseado
         generaciones = ["Generación 2016", "Generación 2017", "Generación 2018", "Generación 2019", "Generación 2020"]
         semestres = 8
     
-        # Reordenar nodos finales para que "Egresados" y "Titulado" estén arriba
         nodos_finales = ["Egresados", "Titulado", "Deserción"]
         labels = generaciones + [f"Semestre {i+1}" for i in range(semestres)] + nodos_finales
     
@@ -1436,8 +1433,8 @@ if "Física 2016" in tags:
 if "Aplicada 2016" in tags :
   
     # Diagrama de Sankey modificado para generaciones 2016-2020
-    st.subheader("Progreso de los alumnos en tiempo y forma por Semestre")
-    st.subheader("Diagrama de Sankey por Semestre")
+    st.subheader("Progreso de los alumnos de Física Aplicada en tiempo y forma por Semestre (2016-2020)")
+    st.subheader("Diagrama de Sankey por Semestre (2016-2020)")
     
     # Definición de la función para crear el diagrama de Sankey
     def create_dynamic_sankey(opacity=0.8):
