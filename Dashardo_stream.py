@@ -19,37 +19,32 @@ st.set_page_config(
 )
 
 
-# Título
+
 st.title("Trayectoria Académica de los Estudiantes")
 
-# Sidebar de etiquetas
+
 from streamlit_tags import st_tags_sidebar
 
 tags = st_tags_sidebar(
-    label="Filtrar visualizaciones. Tags a usar: Aplicada 2009, Física 2009, Física 2016, Aplicada 2016, SankeyFísica",
+    label="Filtrar visualizaciones. Tags a usar: Aplicada 2009, Física 2009, Física 2016, Aplicada 2016, SankeyFísica, SankeyAplicada",
     text="Escribe y presiona enter para agregar etiquetas",
     value=[""],
-    suggestions=["Aplicada 2009", "Física 2009", "Física 2016", "Aplicada 2016", "SankeyFísica"],
+    suggestions=["Aplicada 2009", "Física 2009", "Física 2016", "Aplicada 2016", "SankeyFísica", "SankeyAplicada"],
     maxtags=-5,
     key="tags"
 )
 if "Aplicada 2009" in tags:
     
-    # Verificar si la etiqueta "Sankey" está seleccionada
-    #if "Sankey" in tags:
-    
-        # Diagrama de Sankey original
+
     st.subheader("Progreso de los alumnos en tiempo y forma por Semestre")
     st.subheader("Diagrama de Sankey por Semestre")
     
-    # Definición de la función para crear el diagrama de Sankey
+    
     def create_dynamic_sankey(opacity=0.8):
-        # Definir nodos manualmente en el orden deseado
         generaciones = ["Generación 2009", "Generación 2010", "Generación 2011", "Generación 2012",
                         "Generación 2013", "Generación 2014", "Generación 2015"]
         semestres = 9
     
-        # Reordenar nodos finales para que "Egresados" y "Titulado" estén arriba
         nodos_finales = ["Egresados", "Titulado", "Deserción"]
         labels = generaciones + [f"Semestre {i+1}" for i in range(semestres)] + nodos_finales
     
@@ -70,7 +65,6 @@ if "Aplicada 2009" in tags:
     
         valores_generaciones = [46, 56, 54, 57, 55, 61, 60]
     
-        # Asegurar que los nodos iniciales estén ordenados cronológicamente
         for gen, valor in enumerate(valores_generaciones):
             sources.append(gen)
             targets.append(len(generaciones))
@@ -143,8 +137,6 @@ if "Aplicada 2009" in tags:
     st.plotly_chart(create_dynamic_sankey(opacity), use_container_width=True)
 
 
-        
-        # Datos para la primera tabla: Tasa de Retención
     retention_data = [
         ["2011", "63%", "72%", "85%", "86%"],
         ["2012", "75%", "82%", "92%", "97%"],
@@ -153,7 +145,6 @@ if "Aplicada 2009" in tags:
         ["2015", "71%", "89%", "77%", "87%"]
     ]
     
-    # Tabla HTML - Fondo negro
     table_html_black = f"""
     <style>
         .table-black {{
@@ -185,8 +176,6 @@ if "Aplicada 2009" in tags:
         {"".join(f"<tr><td>{row[0]}</td><td>{row[1]}</td><td>{row[2]}</td><td>{row[3]}</td><td>{row[4]}</td></tr>" for row in retention_data)}
     </table>
     """
-
-    # Datos para la segunda tabla: Tasa de Retención Femenina
     female_retention_data = [
         ["2011", "56%", "70%", "71%", "100%"],
         ["2012", "93%", "64%", "89%", "88%"],
@@ -195,7 +184,6 @@ if "Aplicada 2009" in tags:
         ["2015", "81%", "95%", "90%", "89%"]
     ]
     
-    # Tabla HTML - Fondo #D9B1E0 para cabeceras y #862B96 para celdas de datos
     table_html_purple = f"""
     <style>
         .table-purple {{
@@ -230,7 +218,7 @@ if "Aplicada 2009" in tags:
     </table>
     """
 
-    # Datos para la tabla: Tasa de Retención Masculina
+    
     male_retention_data = [
         ["2011", "67%", "73%", "89%", "82%"],
         ["2012", "69%", "90%", "93%", "100%"],
@@ -239,7 +227,6 @@ if "Aplicada 2009" in tags:
         ["2015", "64%", "83%", "63%", "83%"]
     ]
     
-    # Tabla HTML - Fondo #3D0C56 y texto contenido #B6A3C7
     table_html_male = f"""
     <style>
         .table-male {{
@@ -273,12 +260,10 @@ if "Aplicada 2009" in tags:
         {"".join(f"<tr><td>{row[0]}</td><td>{row[1]}</td><td>{row[2]}</td><td>{row[3]}</td><td>{row[4]}</td></tr>" for row in male_retention_data)}
     </table>
     """
-
-
-    # Streamlit Layout
+    
     col1, col2, col3 = st.columns([1, 5, 1])
     
-    # Mostrar tablas en la columna central
+    
     with col2:
         st.write("### Tasa de Retención por Cohorte")
         st.markdown(table_html_black, unsafe_allow_html=True)
@@ -288,10 +273,6 @@ if "Aplicada 2009" in tags:
         st.markdown(table_html_male, unsafe_allow_html=True)
 
     
-
-   
-
-                # Datos ficticios por generación y género
     generation_data = {
         "Generación 2009": {
             "Bajas": {"General": 31, "Hombres": 21, "Mujeres": 10},
@@ -330,7 +311,6 @@ if "Aplicada 2009" in tags:
         },
     }
 
-        # Índice de rezago por generación
     rezago_data = {
         "Generación 2009": 26,
         "Generación 2010": 13.33333333,
@@ -341,7 +321,6 @@ if "Aplicada 2009" in tags:
         "Generación 2015": 33.87097,
     }
 
-    # Índice de rezago femenino
     rezago_femenino_data = {
         "Generación 2009": 25,
         "Generación 2010": 5,
@@ -352,7 +331,6 @@ if "Aplicada 2009" in tags:
         "Generación 2015": 46.1538,
     }
     
-    # Índice de rezago masculino
     rezago_masculino_data = {
         "Generación 2009": 26.470588,
         "Generación 2010": 17.5,
@@ -389,7 +367,6 @@ if "Aplicada 2009" in tags:
             "red": ['#E74C3C', '#781F16']
         }.get(input_color, ['#dddddd', '#aaaaaa'])
     
-        # Datos para el gráfico
         source = pd.DataFrame({
             "Topic": ['', input_text],
             "% value": [100 - input_response, input_response]
@@ -399,7 +376,6 @@ if "Aplicada 2009" in tags:
             "% value": [100, 0]
         })
     
-        # Gráfico principal de dona
         plot = alt.Chart(source).mark_arc(innerRadius=45, cornerRadius=25).encode(
             theta="% value",
             color=alt.Color("Topic:N",
@@ -409,7 +385,6 @@ if "Aplicada 2009" in tags:
                             legend=None),
         ).properties(width=130, height=130)
     
-        # Texto del porcentaje
         text = plot.mark_text(
             align='center',
             font="Lato",
@@ -417,7 +392,6 @@ if "Aplicada 2009" in tags:
             fontWeight=700
         ).encode(text=alt.value(f'{input_response} %'))
     
-        # Fondo de la dona
         plot_bg = alt.Chart(source_bg).mark_arc(innerRadius=45, cornerRadius=20).encode(
             theta="% value",
             color=alt.Color("Topic:N",
@@ -427,7 +401,6 @@ if "Aplicada 2009" in tags:
                             legend=None),
         ).properties(width=130, height=130)
     
-        # Título (texto encima del gráfico)
         if title_text:
             title = alt.Chart(pd.DataFrame({'text': [title_text]})).mark_text(
                 align='center',
@@ -436,40 +409,34 @@ if "Aplicada 2009" in tags:
                 color=chart_color[0]
             ).encode(text='text:N')
     
-            # Concatenar título y gráfico
             return alt.vconcat(title, plot_bg + plot + text)
         else:
-            # Texto en blanco para alinear las gráficas generales
+            
             blank_title = alt.Chart(pd.DataFrame({'text': ['‎ ‎ ‎ ‎ ']})).mark_text(
                 align='center',
-                fontSize=16,  # Tamaño similar al texto de hombres y mujeres
+                fontSize=16,  
                 fontWeight='bold',
-                color="#ffffff"  # Texto blanco para que sea invisible
+                color="#ffffff"  
             ).encode(text='text:N')
     
             return alt.vconcat(blank_title, plot_bg + plot + text)
 
     
-    # Dropdown generación
     generaciones = list(generation_data.keys())
     selected_generacion = st.selectbox("Selecciona una generación:", generaciones)
     
     
     col1, col2, col3 = st.columns(3)
-    
-    # Mostrar el índice de rezago general en la columna 1
     with col1:
         indice_rezago = rezago_data[selected_generacion]
         st.metric(label="Índice de Rezago", value=f"{indice_rezago:.2f}")
-    # Mostrar el índice de rezago femenino
+    
         indice_rezago_femenino = rezago_femenino_data[selected_generacion]
         st.metric(label="Índice de Rezago Femenino", value=f"{indice_rezago_femenino:.2f}")
     
-        # Mostrar el índice de rezago masculino
         indice_rezago_masculino = rezago_masculino_data[selected_generacion]
         st.metric(label="Índice de Rezago Masculino", value=f"{indice_rezago_masculino:.2f}")
 
-    # Mostrar los valores de la generación seleccionada
     with col2:
         st.write("Estudiantes inscritos por semestre para la generación seleccionada:")
         df = pd.DataFrame({
@@ -479,10 +446,8 @@ if "Aplicada 2009" in tags:
         st.dataframe(df)
 
     
-    # Columnas con gráficas de dona dinámicas basadas en la generación seleccionada
     col1, col2, col3 = st.columns([1, 1, 1])
     
-    # Totales por generación
     valores_generaciones = [46, 56, 54, 57, 55, 61, 60]  # Totales de estudiantes por generación en orden 2009-2015
     totales_generacion = dict(zip(generation_data.keys(), valores_generaciones))  # Mapeo generación -> total
     
@@ -494,7 +459,6 @@ if "Aplicada 2009" in tags:
             for grupo in ["General", "Hombres", "Mujeres"]:
                 valores[grupo] = round((valores[grupo] / total) * 100, 2)  # Convertir a porcentaje
     
-    # Convertir los valores de generation_data a porcentajes
     for generacion, data in generation_data.items():
         calcular_porcentajes(data, totales_generacion[generacion])
         categories = ["Bajas", "Egresados", "Titulados"]
@@ -504,16 +468,13 @@ if "Aplicada 2009" in tags:
         with col:
             st.title(category)
     
-            # Gráfica general
             general = generation_data[selected_generacion][category]["General"]
             st.altair_chart(make_donut(general, "General", color), use_container_width=True)
     
-            # Gráfica de hombres con texto encima
             hombres = generation_data[selected_generacion][category]["Hombres"]
             hombres_percent = round((hombres / general) * 100, 1)
             st.altair_chart(make_donut(hombres_percent, "Hombres", "blue", title_text="Hombres"), use_container_width=True)
     
-            # Gráfica de mujeres con texto encima
             mujeres = generation_data[selected_generacion][category]["Mujeres"]
             mujeres_percent = round((mujeres / general) * 100, 1)
             st.altair_chart(make_donut(mujeres_percent, "Mujeres", "pink", title_text="Mujeres"), use_container_width=True)
@@ -521,18 +482,16 @@ if "Aplicada 2009" in tags:
 if "Física 2009" in tags:
     
     
-        # Diagrama de Sankey original
+        
     st.subheader("Progreso de los alumnos en tiempo y forma por Semestre")
     st.subheader("Diagrama de Sankey por Semestre")
     
-    # Definición de la función para crear el diagrama de Sankey
+    
     def create_dynamic_sankey(opacity=0.8):
-        # Definir nodos manualmente en el orden deseado
         generaciones = ["Generación 2009", "Generación 2010", "Generación 2011", "Generación 2012",
                         "Generación 2013", "Generación 2014", "Generación 2015"]
         semestres = 9
     
-        # Reordenar nodos finales para que "Egresados" y "Titulado" estén arriba
         nodos_finales = ["Egresados", "Titulado", "Deserción"]
         labels = generaciones + [f"Semestre {i+1}" for i in range(semestres)] + nodos_finales
     
@@ -553,7 +512,6 @@ if "Física 2009" in tags:
     
         valores_generaciones = [81, 108, 91, 90, 90, 91, 93]
     
-        # Asegurar que los nodos iniciales estén ordenados cronológicamente
         for gen, valor in enumerate(valores_generaciones):
             sources.append(gen)
             targets.append(len(generaciones))
@@ -622,11 +580,9 @@ if "Física 2009" in tags:
     
         return fig
     
-    # Mostrar el slider y el gráfico del Sankey
     opacity = st.slider("Ajustar opacidad:", 0.2, 1.0, 0.8, 0.1)
     st.plotly_chart(create_dynamic_sankey(opacity), use_container_width=True)
     
-    # Datos para la primera tabla: Tasa de Retención
     retention_data = [
         ["2011", "81%", "86%", "91%", "93%"],
         ["2012", "67%", "78%", "89%", "88%"],
@@ -635,7 +591,6 @@ if "Física 2009" in tags:
         ["2015", "71%", "85%", "91%", "92%"]
     ]
     
-    # Tabla HTML - Fondo negro
     table_html_black = f"""
     <style>
         .table-black {{
@@ -2377,6 +2332,5 @@ if "SankeyAplicada" in tags:
     
         return fig
     
-    # Mostrar el slider y el gráfico del Sankey
     opacity_2 = st.slider("Ajustar opacidad (2016-2020):", 0.2, 1.0, 0.8, 0.1)
     st.plotly_chart(create_dynamic_sankey_2016_2020(opacity_2), use_container_width=True)
