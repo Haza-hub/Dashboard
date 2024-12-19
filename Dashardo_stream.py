@@ -28,7 +28,7 @@ from streamlit_tags import st_tags_sidebar
 tags = st_tags_sidebar(
     label="Filtrar visualizaciones:",
     text="Escribe y presiona enter para agregar etiquetas",
-    value=["Física 2009", "Aplicada 2009", "Física 2016", "Aplicada 2016", "SankeyFísica"],
+    value=[""],
     suggestions=["Aplicada 2009", "Física 2009", "Física 2016", "Aplicada 2016", "SankeyFísica"],
     maxtags=-5,
     key="tags"
