@@ -26,7 +26,7 @@ st.title("Trayectoria Académica de los Estudiantes")
 from streamlit_tags import st_tags_sidebar
 
 tags = st_tags_sidebar(
-    label="Filtrar visualizaciones:",
+    label="Filtrar visualizaciones. Tags a usar: Aplicada 2009, Física 2009, Física 2016, Aplicada 2016, SankeyFísica",
     text="Escribe y presiona enter para agregar etiquetas",
     value=[""],
     suggestions=["Aplicada 2009", "Física 2009", "Física 2016", "Aplicada 2016", "SankeyFísica"],
@@ -2188,3 +2188,195 @@ if "SankeyFísica" in tags:
     # Slider y gráfico del segundo Sankey
     opacity_2 = st.slider("Ajustar opacidad para el segundo Sankey:", 0.2, 1.0, 0.8, 0.1)
     st.plotly_chart(create_dynamic_sankey_2(opacity_2), use_container_width=True)
+    
+    
+if "SankeyAplicada" in tags: 
+    
+    # Diagrama de Sankey para generaciones 2009-2015
+    st.subheader("Progreso de los alumnos en tiempo y forma por Semestre")
+    st.subheader("Diagrama de Sankey por Semestre (2009-2015)")
+    
+    # Definición de la función para crear el diagrama de Sankey para 2009-2015
+    def create_dynamic_sankey_2009_2015(opacity=0.8):
+        generaciones = ["Generación 2009", "Generación 2010", "Generación 2011", "Generación 2012",
+                        "Generación 2013", "Generación 2014", "Generación 2015"]
+        semestres = 9
+        nodos_finales = ["Egresados", "Titulado", "Deserción"]
+        labels = generaciones + [f"Semestre {i+1}" for i in range(semestres)] + nodos_finales
+        
+        sources = []
+        targets = []
+        values = []
+        colors = []
+        
+        colores_generaciones = [
+            "255, 99, 71", "60, 179, 113", "30, 144, 255", "255, 215, 0", 
+            "218, 112, 214", "244, 164, 96", "123, 104, 238"
+        ]
+        valores_generaciones = [46, 56, 54, 57, 55, 61, 60]
+    
+        # Conexión con las generaciones
+        for gen, valor in enumerate(valores_generaciones):
+            sources.append(gen)
+            targets.append(len(generaciones))
+            values.append(valor)
+            colors.append(f"rgba({colores_generaciones[gen]}, {opacity})")
+    
+        valores_semestres = [
+            [46, 56, 48, 57, 55, 61, 54],
+            [17, 36, 32, 28, 28, 31, 30],
+            [17, 24, 16, 17, 19, 17, 24],
+            [12, 15, 14, 17, 23, 20, 20],
+            [11, 13, 7, 15, 16, 17, 16],
+            [8, 9, 12, 14, 12, 16, 13],
+            [5, 10, 10, 11, 14, 14, 13],
+            [5, 8, 5, 11, 10, 10, 13]
+        ]
+        
+        for semestre_index, valores in enumerate(valores_semestres):
+            for gen, valor in enumerate(valores):
+                sources.append(len(generaciones) + semestre_index)
+                targets.append(len(generaciones) + semestre_index + 1)
+                values.append(valor)
+                colors.append(f"rgba({colores_generaciones[gen]}, {opacity})")
+    
+        valores_finales = {
+            "Egresados": [15, 18, 4, 11, 14, 4, 9],
+            "Titulado": [4, 2, 2, 6, 14, 14, 10],
+            "Deserción": [31, 39, 48, 32, 6, 38, 4]
+        }
+        
+        ultimo_semestre = len(generaciones) + semestres - 1
+        targets_indices = [labels.index("Egresados"), labels.index("Titulado"), labels.index("Deserción")]
+    
+        for gen, color in enumerate(colores_generaciones):
+            sources.extend([ultimo_semestre, ultimo_semestre, ultimo_semestre])
+            targets.extend(targets_indices)
+            values.extend([
+                valores_finales["Egresados"][gen],
+                valores_finales["Titulado"][gen],
+                valores_finales["Deserción"][gen]
+            ])
+            colors.extend([f"rgba({color}, {opacity})"] * 3)
+    
+        fig = go.Figure(go.Sankey(
+            node=dict(
+                pad=15,
+                thickness=20,
+                line=dict(color="black", width=0.5),
+                label=labels,
+                color=[f'rgba(30, 58, 138, {opacity})' for _ in labels]
+            ),
+            link=dict(
+                source=sources,
+                target=targets,
+                value=values,
+                color=colors
+            )
+        ))
+    
+        fig.update_layout(
+            title="Diagrama de Sankey: Trayectoria Académica por Generación (2009-2015)",
+            font=dict(size=14),
+            paper_bgcolor="rgba(0, 0, 0, 0)"
+        )
+    
+        return fig
+    
+    # Mostrar el slider y el gráfico del Sankey
+    opacity_1 = st.slider("Ajustar opacidad (2009-2015):", 0.2, 1.0, 0.8, 0.1)
+    st.plotly_chart(create_dynamic_sankey_2009_2015(opacity_1), use_container_width=True)
+    
+    
+    # Diagrama de Sankey para generaciones 2016-2020
+    st.subheader("Progreso de los alumnos en tiempo y forma por Semestre")
+    st.subheader("Diagrama de Sankey por Semestre (2016-2020)")
+    
+    # Definición de la función para crear el diagrama de Sankey para 2016-2020
+    def create_dynamic_sankey_2016_2020(opacity=0.8):
+        generaciones = ["Generación 2016", "Generación 2017", "Generación 2018", "Generación 2019", "Generación 2020"]
+        semestres = 8
+        nodos_finales = ["Egresados", "Titulado", "Deserción"]
+        labels = generaciones + [f"Semestre {i+1}" for i in range(semestres)] + nodos_finales
+        
+        sources = []
+        targets = []
+        values = []
+        colors = []
+        
+        colores_generaciones = [
+            "255, 99, 71", "60, 179, 113", "30, 144, 255", "255, 215, 0", "218, 112, 214"
+        ]
+        valores_generaciones = [65, 76, 76, 107, 127]
+    
+        # Conexión con las generaciones
+        for gen, valor in enumerate(valores_generaciones):
+            sources.append(gen)
+            targets.append(len(generaciones))
+            values.append(valor)
+            colors.append(f"rgba({colores_generaciones[gen]}, {opacity})")
+    
+        valores_semestres = [
+            [56, 71, 72, 78, 109],
+            [41, 52, 54, 48, 41],
+            [30, 41, 38, 49, 38],
+            [23, 33, 24, 42, 40],
+            [21, 26, 27, 41, 43],
+            [22, 19, 21, 38, 41],
+            [16, 22, 23, 34, 40],
+            [15, 26, 29, 30, ""]
+        ]
+        
+        for semestre_index, valores in enumerate(valores_semestres):
+            for gen, valor in enumerate(valores):
+                sources.append(len(generaciones) + semestre_index)
+                targets.append(len(generaciones) + semestre_index + 1)
+                values.append(valor)
+                colors.append(f"rgba({colores_generaciones[gen]}, {opacity})")
+    
+        valores_finales = {
+            "Egresados": [10, 11, 12, 16, ""],
+            "Titulado": [17, 14, 9, 8, ""],
+            "Deserción": [36, 28, 36, 47, ""]
+        }
+        
+        ultimo_semestre = len(generaciones) + semestres - 1
+        targets_indices = [labels.index("Egresados"), labels.index("Titulado"), labels.index("Deserción")]
+    
+        for gen, color in enumerate(colores_generaciones):
+            sources.extend([ultimo_semestre, ultimo_semestre, ultimo_semestre])
+            targets.extend(targets_indices)
+            values.extend([
+                valores_finales["Egresados"][gen],
+                valores_finales["Titulado"][gen],
+                valores_finales["Deserción"][gen]
+            ])
+            colors.extend([f"rgba({color}, {opacity})"] * 3)
+    
+        fig = go.Figure(go.Sankey(
+            node=dict(
+                pad=15,
+                thickness=20,
+                line=dict(color="black", width=0.5),
+                label=labels,
+                color=[f'rgba(30, 58, 138, {opacity})' for _ in labels]
+            ),
+            link=dict(
+                source=sources,
+                target=targets,
+                value=values,
+                color=colors
+            )
+        ))
+    
+        fig.update_layout(
+            title="Diagrama de Sankey: Trayectoria Académica por Generación (2016-2020)",
+            font=dict(size=14),
+            paper_bgcolor="rgba(0, 0, 0, 0)"
+        )
+    
+        return fig
+    
+    # Mostrar el slider y el gráfico del Sankey
+    opacity_2 = st.slider("Ajustar opacidad (2016-2020):", 0.2, 1.0, 0.8, 0.1)
+    st.plotly_chart(create_dynamic_sankey_2016_2020(opacity_2), use_container_width=True)
